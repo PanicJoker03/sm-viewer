@@ -1,0 +1,157 @@
+metadata:
+  game: super_metroid
+  source: gamefaqs_zeric
+  coordinate_system: image_pixels
+  image_size: {width: 2058, height: 1326}
+  origin: top_left
+  notes:
+    - "All coordinates are visual estimates (+/- ~10px). Not a pixel-exact room segmentation."
+    - "rooms: only landmark/boss/key rooms; ~180 individual rooms are not segmented."
+    - "Region outline colors: crateria=light blue, brinstar=green, norfair=red, wrecked_ship=orange, maridia=teal/blue, tourian=white/grey."
+  legend_panel: {x: 1643, y: 130, w: 405, h: 430}
+  research_station_inset: {x: 1643, y: 1100, w: 405, h: 175}   # Ceres / Research Station
+
+world:
+  regions:
+    crateria:
+      color: light_blue
+      bbox: [275, 125, 1320, 330]
+      rooms: [landing_site, bomb_torizo_room, crateria_west_shaft, crateria_east_shaft]
+    brinstar:
+      color: green
+      bbox: [203, 510, 1160, 850]
+      rooms: [kraid_room, spore_spawn_room]
+    norfair:
+      color: red
+      bbox: [706, 852, 1357, 1160]
+      rooms: [crocomire_room, golden_torizo_room, ridley_room]
+    wrecked_ship:
+      color: orange
+      bbox: [850, 150, 1176, 330]
+      rooms: [phantoon_room]
+    maridia:
+      color: light_blue_teal
+      bbox: [797, 490, 1390, 800]
+      rooms: [botwoon_room, draygon_room]
+    tourian:
+      color: white
+      bbox: [310, 380, 520, 570]
+      rooms: [mother_brain_room]
+
+rooms:
+  - {id: landing_site,         region: crateria,     bbox: [617, 150, 745, 240], note: "Samus ship"}
+  - {id: bomb_torizo_room,     region: crateria,     approx_center: [600, 250],  boss: bomb_torizo}
+  - {id: crateria_west_shaft,  region: crateria,     bbox: [275, 295, 295, 540], type: vertical_shaft}
+  - {id: crateria_east_shaft,  region: crateria,     bbox: [1230, 335, 1250, 570], type: vertical_shaft}
+  - {id: phantoon_room,        region: wrecked_ship, approx_center: [1075, 320], boss: phantoon}
+  - {id: spore_spawn_room,     region: brinstar,     approx_center: [480, 735],  boss: spore_spawn}
+  - {id: kraid_room,           region: brinstar,     approx_center: [1100, 830], boss: kraid}
+  - {id: mother_brain_room,    region: tourian,      approx_center: [335, 500],  boss: mother_brain}
+  - {id: botwoon_room,         region: maridia,      approx_center: [1095, 690], boss: botwoon}
+  - {id: draygon_room,         region: maridia,      approx_center: [1345, 690], boss: draygon}
+  - {id: crocomire_room,       region: norfair,      approx_center: [850, 1040], boss: crocomire}
+  - {id: golden_torizo_room,   region: norfair,      approx_center: [1030, 1115], boss: golden_torizo}
+  - {id: ridley_room,          region: norfair,      approx_center: [1085, 1145], boss: ridley}
+  - {id: ceres_station,        region: research_station, bbox: [1715, 1150, 1880, 1240], boss: ridley_ceres}
+
+connections:
+  # Elevators / vertical transitions (approximate start -> end points)
+  - {type: elevator, from: crateria, to: brinstar, from_xy: [590, 290], to_xy: [590, 680]}
+  - {type: elevator, from: crateria, to: brinstar, from_xy: [785, 240], to_xy: [785, 610]}
+  - {type: elevator, from: brinstar, to: norfair,  from_xy: [860, 850], to_xy: [860, 880]}
+  - {type: elevator, from: crateria, to: maridia,  from_xy: [1240, 340], to_xy: [1240, 570]}
+  - {type: elevator, from: crateria, to: tourian,  from_xy: [283, 300], to_xy: [283, 540]}
+  - {type: elevator, from: norfair,  to: norfair,  from_xy: [1058, 1025], to_xy: [1058, 1075], note: "internal Norfair shaft"}
+  - {type: elevator, from: ceres_station, to: ceres_station, from_xy: [1725, 1150], to_xy: [1725, 1200]}
+  # Horizontal region links
+  - {type: corridor, from: crateria, to: wrecked_ship, via_xy: [850, 235]}
+  - {type: corridor, from: brinstar, to: maridia, via_xy: [800, 640]}
+  - {type: corridor, from: brinstar, to: norfair, via_xy: [860, 850]}
+  # Door types in legend: normal(blue), missile(red), super(green), power_bomb(yellow), boss(pink), one-way variants
+
+markers:
+  items:
+    - {name: normal_bomb,   region: crateria,     location_hint: bomb_torizo_room, via: chozo_statue}
+    - {name: super_missile, region: brinstar,     location_hint: spore_spawn_room}
+    - {name: varia_suit,    region: brinstar,     location_hint: kraid_room}
+    - {name: space_jump,    region: maridia,      location_hint: draygon_room}
+    - {name: energy_tank,   region: norfair,      location_hint: crocomire_room}
+    - {name: screw_attack,  region: norfair,      location_hint: golden_torizo_room}
+    - {name: energy_tank,   region: norfair,      location_hint: ridley_room}
+    - {name: charge_beam,   region: brinstar,     source: legend}
+    - {name: spazer,        region: brinstar,     source: legend}
+    - {name: ice_beam,      region: norfair,      source: legend}
+    - {name: wave_beam,     region: norfair,      source: legend}
+    - {name: plasma_beam,   region: maridia,      source: legend}
+    - {name: hyper_beam,    region: tourian,      source: legend, note: "Mother Brain"}
+    - {name: gravity_suit,  region: wrecked_ship, source: legend}
+    - {name: hi_jump,       region: norfair,      source: legend}
+    - {name: speed_booster, region: norfair,      source: legend}
+    - {name: morph_ball,    region: brinstar,     source: legend}
+    - {name: spring_ball,   region: maridia,      source: legend}
+    - {name: x_ray,         region: brinstar,     source: legend}
+    - {name: grapple_beam,  region: norfair,      source: legend}
+    - {name: missile_tanks, count: 46, per_tank: 5, total: 230, source: legend}
+    - {name: super_missile_tanks, total: 50, source: legend}
+    - {name: power_bomb_tanks, total: 50, source: legend}
+  bosses:
+    - {name: bomb_torizo,   type: mini, region: crateria,     xy: [600, 250], panel: [373, 135, 582, 172], reward: normal_bomb}
+    - {name: phantoon,      type: boss, region: wrecked_ship, xy: [1075, 320], panel: [895, 350, 1105, 385], reward: none}
+    - {name: spore_spawn,   type: mini, region: brinstar,     xy: [480, 735],  panel: [247, 757, 455, 795], reward: super_missile}
+    - {name: kraid,         type: boss, region: brinstar,     xy: [1100, 830], panel: [1177, 808, 1385, 845], reward: varia_suit}
+    - {name: mother_brain,  type: boss, region: tourian,      xy: [335, 500],  panel: [55, 467, 265, 502], reward: none}
+    - {name: botwoon,       type: mini, region: maridia,      xy: [1095, 690], panel: [1130, 700, 1335, 737], reward: none}
+    - {name: draygon,       type: boss, region: maridia,      xy: [1345, 690], panel: [1380, 700, 1590, 737], reward: space_jump}
+    - {name: crocomire,     type: mini, region: norfair,      xy: [850, 1040], panel: [553, 1023, 762, 1060], reward: energy_tank}
+    - {name: golden_torizo, type: mini, region: norfair,      xy: [1030, 1115], panel: [783, 1170, 990, 1207], reward: screw_attack}
+    - {name: ridley,        type: boss, region: norfair,      xy: [1085, 1145], panel: [1122, 1150, 1331, 1187], reward: energy_tank}
+    - {name: ridley_ceres,  type: boss, region: research_station, panel: [1765, 1140, 1975, 1180], reward: none}
+  save_points:   # red "S" icons, approximate centers
+    - {region: crateria,     xy: [500, 267]}
+    - {region: crateria,     xy: [500, 393]}
+    - {region: brinstar,     xy: [410, 483]}
+    - {region: brinstar,     xy: [390, 573]}
+    - {region: brinstar,     xy: [268, 592]}
+    - {region: brinstar,     xy: [213, 699]}
+    - {region: brinstar,     xy: [807, 646]}
+    - {region: brinstar,     xy: [841, 843]}
+    - {region: maridia,      xy: [969, 699]}
+    - {region: maridia,      xy: [1003, 825]}
+    - {region: maridia,      xy: [1253, 573]}
+    - {region: maridia,      xy: [1363, 609]}
+    - {region: wrecked_ship, xy: [1093, 231]}
+    - {region: norfair,      xy: [1057, 897]}
+    - {region: norfair,      xy: [878, 934]}
+    - {region: norfair,      xy: [968, 988]}
+    - {region: norfair,      xy: [1041, 1023]}
+    - {region: norfair,      xy: [895, 1042]}
+    - {region: norfair,      xy: [1328, 1059]}
+  map_stations:  # green "M"
+    - {region: crateria,     xy: [590, 285]}
+    - {region: brinstar,     xy: [212, 573]}
+    - {region: brinstar,     xy: [930, 806]}
+    - {region: wrecked_ship, xy: [1022, 321]}
+    - {region: norfair,      xy: [843, 915]}
+  recharge_stations:
+    energy:           # "ER"
+      - {xy: [285, 717]}
+      - {xy: [698, 825]}
+      - {xy: [1383, 609]}
+      - {xy: [1041, 1005]}
+      - {xy: [1057, 1113]}
+    energy_and_missile:   # "R"
+      - {xy: [303, 466]}
+      - {xy: [1093, 825]}
+    missile:          # "MA"
+      - {xy: [213, 627]}
+      - {xy: [1309, 645]}
+  elevators:
+    - {from: crateria, to: brinstar, xy_top: [590, 290], xy_bottom: [590, 680]}
+    - {from: crateria, to: brinstar, xy_top: [785, 240], xy_bottom: [785, 610]}
+    - {from: brinstar, to: norfair,  xy_top: [860, 850], xy_bottom: [860, 880]}
+    - {from: crateria, to: maridia,  xy_top: [1240, 340], xy_bottom: [1240, 570]}
+    - {from: crateria, to: tourian,  xy_top: [283, 300], xy_bottom: [283, 540]}
+    - {from: norfair,  to: norfair,  xy_top: [1058, 1025], xy_bottom: [1058, 1075]}
+    - {from: ceres,    to: ceres,    xy_top: [1725, 1150], xy_bottom: [1725, 1200]}
+  samus_ship: {xy: [680, 233]}
+  secrets: []   # not distinguishable on this map; no secret/hidden-room markers are drawn
